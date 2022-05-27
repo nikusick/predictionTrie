@@ -20,7 +20,7 @@ std::string MainWindow::getText() {
     return cursor.selectedText().toStdString();
 }
 
-void MainWindow::on_textEdit_cursorPositionChanged() {
+void MainWindow::onTextEditCursorPositionChanged() {
     std::string word = getText();
     std::vector<std::string> matches = predictionTrie.findBestMatches(word, 20);
     ui->listWidget->clear();
@@ -31,7 +31,7 @@ void MainWindow::on_textEdit_cursorPositionChanged() {
 }
 
 
-void MainWindow::on_listWidget_itemClicked(QListWidgetItem *item) {
+void MainWindow::onListWidgetItemClicked(QListWidgetItem *item) {
     std::string word = item->text().toStdString();
     QTextCursor cursor = ui->textEdit->textCursor();
     cursor.select(QTextCursor::WordUnderCursor);

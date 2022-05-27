@@ -19,9 +19,9 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_textEdit_cursorPositionChanged();
+    void onTextEditCursorPositionChanged();
 
-    void on_listWidget_itemClicked(QListWidgetItem *item);
+    void onListWidgetItemClicked(QListWidgetItem *item);
 
 private:
     std::string getText();
