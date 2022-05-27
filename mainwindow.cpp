@@ -8,6 +8,10 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow) {
     ui->setupUi(this);
+    connect(ui->textEdit, SIGNAL(cursorPositionChanged()),
+            this, SLOT(curCursorPositionChanged()));
+    connect(ui->listWidget, SIGNAL(itemClicked(QListWidgetItem*)),
+            this, SLOT(listWidgetClicked(QListWidgetItem*)));
 }
 
 MainWindow::~MainWindow() {
@@ -31,7 +35,7 @@ void MainWindow::onTextEditCursorPositionChanged() {
 }
 
 
-void MainWindow::onListWidgetItemClicked(QListWidgetItem *item) {
+void MainWindow::onListWidgetItemClicked(QListWidgetItem* item) {
     std::string word = item->text().toStdString();
     QTextCursor cursor = ui->textEdit->textCursor();
     cursor.select(QTextCursor::WordUnderCursor);
