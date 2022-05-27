@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
 #include <QPushButton>
@@ -15,8 +15,6 @@ MainWindow::~MainWindow() {
 }
 
 std::string MainWindow::getText() {
-    std::string str = ui->textEdit->toPlainText().toStdString();
-    std::string result = "";
     QTextCursor cursor = ui->textEdit->textCursor();
     cursor.select(QTextCursor::WordUnderCursor);
     return cursor.selectedText().toStdString();
@@ -24,7 +22,7 @@ std::string MainWindow::getText() {
 
 void MainWindow::on_textEdit_cursorPositionChanged() {
     std::string word = getText();
-    std::vector<std::string> matches = predictionTrie.findBestMatches(word, 10);
+    std::vector<std::string> matches = predictionTrie.findBestMatches(word, 20);
     ui->listWidget->clear();
     ui->listWidget->addItem(QString::fromStdString(word));
     for (auto&& word: matches) {
@@ -39,15 +37,8 @@ void MainWindow::on_listWidget_itemClicked(QListWidgetItem *item) {
     cursor.select(QTextCursor::WordUnderCursor);
     cursor.removeSelectedText();
     ui->textEdit->insertPlainText(QString::fromStdString(word));
-    if (predictionTrie.allWordsStartedWith(word).empty()) {
-        predictionTrie.insert(word);
-    }
+    predictionTrie.insert(word);
 }
-
-
-
-
-
 
 
 
