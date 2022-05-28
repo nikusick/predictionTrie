@@ -3,8 +3,6 @@
 #include <algorithm>
 #include <fstream>
 
-#include <QDebug>
-
 PredictionTrie::PredictionTrie() {
     _root = new PredictionTrie::PredictionTrieNode;
     _root->count = 0u;

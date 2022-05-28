@@ -21,7 +21,17 @@ MainWindow::~MainWindow() {
 std::string MainWindow::getText() {
     QTextCursor cursor = ui->textEdit->textCursor();
     cursor.select(QTextCursor::WordUnderCursor);
-    return cursor.selectedText().toStdString();
+    std::string word = cursor.selectedText().toStdString();
+    qDebug() << QString::fromStdString(word);
+    if (word == "") {
+        cursor.clearSelection();
+        cursor.movePosition(QTextCursor::PreviousWord);
+        cursor.select(QTextCursor::WordUnderCursor);
+        word = cursor.selectedText().toStdString();
+        qDebug() << QString::fromStdString(word);
+        predictionTrie.insert(word);
+    }
+    return word;
 }
 
 void MainWindow::curCursorPositionChanged() {
