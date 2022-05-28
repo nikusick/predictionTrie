@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->textEdit, SIGNAL(cursorPositionChanged()),
             this, SLOT(curCursorPositionChanged()));
     connect(ui->listWidget, SIGNAL(itemClicked(QListWidgetItem*)),
-            this, SLOT(listWidgetClicked(QListWidgetItem*)));
+                this, SLOT(listItemClicked(QListWidgetItem*)));
 }
 
 MainWindow::~MainWindow() {
@@ -24,7 +24,7 @@ std::string MainWindow::getText() {
     return cursor.selectedText().toStdString();
 }
 
-void MainWindow::onTextEditCursorPositionChanged() {
+void MainWindow::curCursorPositionChanged() {
     std::string word = getText();
     std::vector<std::string> matches = predictionTrie.findBestMatches(word, 20);
     ui->listWidget->clear();
@@ -35,7 +35,7 @@ void MainWindow::onTextEditCursorPositionChanged() {
 }
 
 
-void MainWindow::onListWidgetItemClicked(QListWidgetItem* item) {
+void MainWindow::listItemClicked(QListWidgetItem* item) {
     std::string word = item->text().toStdString();
     QTextCursor cursor = ui->textEdit->textCursor();
     cursor.select(QTextCursor::WordUnderCursor);

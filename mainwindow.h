@@ -1,4 +1,4 @@
-#ifndef MAINWINDOW_H
+﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include "predictiontrie.h"
@@ -19,9 +19,9 @@ public:
     ~MainWindow();
 
 private slots:
-    void onTextEditCursorPositionChanged();
+    void curCursorPositionChanged();
 
-    void onListWidgetItemClicked(QListWidgetItem *item);
+    void listItemClicked(QListWidgetItem *item);
 
 private:
     std::string getText();

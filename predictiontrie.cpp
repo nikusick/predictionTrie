@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <fstream>
 
+#include <QDebug>
+
 PredictionTrie::PredictionTrie() {
     _root = new PredictionTrie::PredictionTrieNode;
     _root->count = 0u;
@@ -18,6 +20,16 @@ PredictionTrie::PredictionTrie() {
         throw;
     }
 }
+
+
+PredictionTrie::~PredictionTrie() {
+    std::vector<PredictionTrieNode*> result = {_root};
+    collectAllNodes(_root->children, result);
+    for (auto&& node: result) {
+        delete node;
+    }
+}
+
 
 void PredictionTrie::insert(const std::string& word) {
     auto* current = _root;
@@ -44,6 +56,16 @@ const PredictionTrie::PredictionTrieNode* PredictionTrie::find(const std::string
     }
     return current;
 }
+
+void PredictionTrie::collectAllNodes(
+                const std::unordered_map<char, PredictionTrieNode*>& letterLayer,
+                std::vector<PredictionTrieNode*>& result) {
+    for (auto&& [letter, node] : letterLayer) {
+        result.emplace_back(node);
+        collectAllNodes(node->children, result);
+    }
+}
+
 
 bool PredictionTrie::isPresented(const std::string& word) const {
     auto* found = find(word);

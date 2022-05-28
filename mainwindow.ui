@@ -17,9 +17,9 @@
    <widget class="QTextEdit" name="textEdit">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>10</x>
       <y>20</y>
-      <width>491</width>
+      <width>511</width>
       <height>531</height>
      </rect>
     </property>
@@ -51,7 +51,7 @@ p, li { white-space: pre-wrap; }
    <widget class="QListWidget" name="listWidget">
     <property name="geometry">
      <rect>
-      <x>510</x>
+      <x>530</x>
       <y>20</y>
       <width>256</width>
       <height>531</height>
