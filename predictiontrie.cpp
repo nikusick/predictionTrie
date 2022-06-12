@@ -8,14 +8,14 @@ PredictionTrie::PredictionTrie() {
     _root->count = 0u;
     _root->type = PredictionTrie::PredictionTrieNode::Type::Root;
     std::string line;
-    std::ifstream in("..\\PredictionTtie\\words.txt");
+    std::ifstream in("..\\PredictionTrie\\words.txt");
     if (in.is_open()) {
         while (getline(in, line)) {
             insert(line);
         }
     }
     else {
-        throw file_not_found("File not found!");
+        throw std::out_of_range("File not found!");
     }
 }
 
