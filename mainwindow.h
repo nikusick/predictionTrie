@@ -22,6 +22,7 @@ private slots:
     void curCursorPositionChanged();
 
     void listItemClicked(QListWidgetItem *item);
+    void pushButtonClicked();
 
 private:
     std::string getText();

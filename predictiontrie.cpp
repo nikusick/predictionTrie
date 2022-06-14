@@ -2,6 +2,8 @@
 
 #include <algorithm>
 #include <fstream>
+#include <map>
+
 
 PredictionTrie::PredictionTrie() {
     _root = new PredictionTrie::PredictionTrieNode;
@@ -43,7 +45,14 @@ void PredictionTrie::insert(const std::string& word) {
     current->type = PredictionTrie::PredictionTrieNode::Type::Leaf;
     current->count += 1u;
 }
-const PredictionTrie::PredictionTrieNode* PredictionTrie::find(const std::string& word) const {
+
+void PredictionTrie::remove(const std::string& word) {
+    PredictionTrieNode* found = find(word);
+    found->type = PredictionTrie::PredictionTrieNode::Type::Regular;
+    found->count = 0u;
+}
+
+PredictionTrie::PredictionTrieNode* PredictionTrie::find(const std::string& word) const {
     auto* current = _root;
     for (auto letter : word) {
         auto foundIt = current->children.find(letter);
@@ -56,14 +65,13 @@ const PredictionTrie::PredictionTrieNode* PredictionTrie::find(const std::string
 }
 
 void PredictionTrie::collectAllNodes(
-                const std::unordered_map<char, PredictionTrieNode*>& letterLayer,
-                std::vector<PredictionTrieNode*>& result) {
+        const std::unordered_map<char, PredictionTrieNode*>& letterLayer,
+        std::vector<PredictionTrieNode*>& result) {
     for (auto&& [letter, node] : letterLayer) {
         result.emplace_back(node);
         collectAllNodes(node->children, result);
     }
 }
-
 
 bool PredictionTrie::isPresented(const std::string& word) const {
     auto* found = find(word);
@@ -112,7 +120,7 @@ std::vector<std::string> PredictionTrie::findBestMatches(const std::string& word
     );
     std::vector<std::string> result;
     for (int i = 0; i < count; ++i) {
-            result.push_back(std::get<0>(allWords[i]));
-        }
+        result.push_back(std::get<0>(allWords[i]));
+    }
     return result;
 }

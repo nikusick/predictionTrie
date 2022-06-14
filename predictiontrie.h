@@ -25,7 +25,7 @@ class PredictionTrie {
 
     PredictionTrieNode* _root;
 
-    const PredictionTrieNode* find(const std::string& word) const;
+    PredictionTrieNode* find(const std::string& word) const;
 
     void collectAllNodes(
             const std::unordered_map<char, PredictionTrieNode*>& letterLayer,
@@ -44,6 +44,7 @@ public:
     PredictionTrie(PredictionTrie&& other) = delete;
 
     void insert(const std::string& word);
+    void remove(const std::string& word);
 
     bool isPresented(const std::string& word) const;
 
