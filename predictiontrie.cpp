@@ -9,25 +9,11 @@ PredictionTrie::PredictionTrie() {
     _root = new PredictionTrie::PredictionTrieNode;
     _root->count = 0u;
     _root->type = PredictionTrie::PredictionTrieNode::Type::Root;
-    std::string line;
-    std::ifstream in("..\\PredictionTrie\\words.txt");
-    if (in.is_open()) {
-        while (getline(in, line)) {
-            insert(line);
-        }
-    }
-    else {
-        throw std::out_of_range("File not found!");
-    }
 }
 
 
 PredictionTrie::~PredictionTrie() {
-    std::vector<PredictionTrieNode*> result = {_root};
-    collectAllNodes(_root->children, result);
-    for (auto&& node: result) {
-        delete node;
-    }
+    clear(_root);
 }
 
 
@@ -48,8 +34,15 @@ void PredictionTrie::insert(const std::string& word) {
 
 void PredictionTrie::remove(const std::string& word) {
     PredictionTrieNode* found = find(word);
+    std::string curWord = word;
     found->type = PredictionTrie::PredictionTrieNode::Type::Regular;
-    found->count = 0u;
+    found->count = 0;
+    while (curWord != "" && found->type != PredictionTrie::PredictionTrieNode::Type::Leaf && found->children.empty()) {
+        char lastLetter = curWord.back();
+        curWord.pop_back();
+        found = find(curWord);
+        found->children.erase(lastLetter);
+    }
 }
 
 PredictionTrie::PredictionTrieNode* PredictionTrie::find(const std::string& word) const {
@@ -64,12 +57,13 @@ PredictionTrie::PredictionTrieNode* PredictionTrie::find(const std::string& word
     return current;
 }
 
-void PredictionTrie::collectAllNodes(
-        const std::unordered_map<char, PredictionTrieNode*>& letterLayer,
-        std::vector<PredictionTrieNode*>& result) {
-    for (auto&& [letter, node] : letterLayer) {
-        result.emplace_back(node);
-        collectAllNodes(node->children, result);
+void PredictionTrie::clear(PredictionTrieNode* node) {
+    if (!node) {
+        return;
+    }
+    for (auto& childNode: node->children) {
+        clear(childNode.second);
+        delete childNode.second;
     }
 }
 

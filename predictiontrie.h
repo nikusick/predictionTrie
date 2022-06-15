@@ -27,9 +27,7 @@ class PredictionTrie {
 
     PredictionTrieNode* find(const std::string& word) const;
 
-    void collectAllNodes(
-            const std::unordered_map<char, PredictionTrieNode*>& letterLayer,
-            std::vector<PredictionTrieNode*>& result);
+    void clear(PredictionTrieNode* node);
 
     void collectAllWordsStartedWith(
             const std::string& wordPart,
